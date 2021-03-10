@@ -2,20 +2,33 @@
 #define MAX_BUF 1024
 #include<fcntl.h> 
 #include<errno.h>
-
-
+#include <string.h>
+#include <stdlib.h>
 int main(int argc, char **argv){
 	char buffer[MAX_BUF];
 	int fd;
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-		while (charRead = read(fd, buffer, MAX_BUF) > 0);		
-	char *test = "ݐ";
-	int mask;
-//	for (int i = 0; i < 3; i++)
-//		printf("orgchar = %05d",test[i]);
+	char *hex;
+//	fd = open(argv[1], O_RDONLY);
+//	if (fd == -1)
+//		while (charRead = fread(fd, buffer, MAX_BUF) > 0);		
+	char test[] = "؈";
+	int len = strlen(test);
+	char mask[(len*2) + 1];
+	int i=0;
+   	int k=0;
+	while(test[k] != '\0'){
+		sprintf((char*)(mask + i), "%02X", test[k]);
+		k += 1;
+		i += 2;
+	}
+	mask[i++] = '\0';
+	printf("hex_str: %s\n", mask);
+	int i_mask = strtol(mask, NULL, 16);
+	printf("%d", i_mask);
+	return 0;
+	}
 //	printf("char = %d",  test[0]|128);
-	if (0x00 <(int) test<= 0x7f){
+/*	if (0x00 <(int) test<= 0x7f){
 		test[0] = test &  127;
 		printf("%02x",test[0]);
 	}
@@ -43,3 +56,4 @@ int main(int argc, char **argv){
 }
 //	if (0x80 < test[0] <= 0x7FF)
 //		test[
+		*/

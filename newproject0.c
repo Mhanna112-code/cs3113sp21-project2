@@ -24,6 +24,15 @@ int main(int argc, char *argv){
     memset(UTFG1, 0, sizeof(UTFG1));
     memset(UTFG2, 0, sizeof(UTFG2));
     memset(UTFG3, 0, sizeof(UTFG3));
+    char ch;
+    FILE *fd;
+    fd = fopen("example.txt", "r");
+    while ((ch = fgetc(fd)) != EOF)
+        {
+            printf("%c", ch);
+	    printf("====");
+	    printf("%08X",(unsigned char) ch);
+        }
     char en[]  = "𐍈";
     int result = strlen(en);
     en[result] = '\0';
@@ -37,9 +46,6 @@ int main(int argc, char *argv){
     int b;
     int c;
     int d;
-    ASCIInums[a].count = 1;
-    ASCIInums[a].hexString = en;
-    ASCIInums[a].isVal = 1;
     if (result == 0 | 1){
 	for (a = 0; a < size1; a++){
 		if (ASCIInums[a].isVal == 0)

@@ -27,16 +27,28 @@ int main(int argc, char *argv){
     char ch;
     FILE *fd;
     fd = fopen("example.txt", "r");
+    int result;
+//    ch = fgetc(fd)
     while ((ch = fgetc(fd)) != EOF)
         {
-            printf("%c", ch);
+    /*        printf("%c", ch);
 	    printf("====");
-	    printf("%08X",(unsigned char) ch);
-        }
-    char en[]  = "𐍈";
-    int result = strlen(en);
-    en[result] = '\0';
-//    printf("%d", result);
+    */
+    printf("%08X", (unsigned char)ch);
+    printf("===");
+    if ((unsigned char)ch < 128)
+	result = 1;
+    if ((unsigned char)ch >= 128 & ch < 224)
+	result = 2;
+    if ((unsigned char)ch >= 224 & ch < 240 )
+	result = 3;
+    if ((unsigned char)ch >= 240)
+	result = 4;
+    printf("%d", result);
+    printf("||");
+	}
+/*    en[result] = '\0';
+    printf("%d", result);
     int i = 0;
     int j = 0;
     int k = 0;
@@ -46,7 +58,7 @@ int main(int argc, char *argv){
     int b;
     int c;
     int d;
-    if (result == 0 | 1){
+    if (result ==  1){
 	for (a = 0; a < size1; a++){
 		if (ASCIInums[a].isVal == 0)
 			continue;
@@ -122,5 +134,6 @@ int main(int argc, char *argv){
 	    printf("%d", UTFG3[0].isVal);
 	    printf("||");
     }
+*/
     return 0;
 }

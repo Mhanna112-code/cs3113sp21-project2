@@ -24,7 +24,7 @@ int main(int argc, char *argv){
     memset(UTFG1, 0, sizeof(UTFG1));
     memset(UTFG2, 0, sizeof(UTFG2));
     memset(UTFG3, 0, sizeof(UTFG3));
-    char en[]  = "a";
+    char en[]  = "𐍈";
     int result = strlen(en);
     en[result] = '\0';
 //    printf("%d", result);
@@ -33,7 +33,10 @@ int main(int argc, char *argv){
     int k = 0;
     int f = 0;
     int com = 1;
-    int a = 0;
+    int a;
+    int b;
+    int c;
+    int d;
     ASCIInums[a].count = 1;
     ASCIInums[a].hexString = en;
     ASCIInums[a].isVal = 1;
@@ -48,26 +51,70 @@ int main(int argc, char *argv){
 	if (com==0)
 		ASCIInums[a].count++;
 	else{
+	ASCIInums[i].isVal = 1;
 	ASCIInums[i].count++;
 	ASCIInums[i].hexString = malloc(1 + result);
         strcpy(ASCIInums[i++].hexString, en);
-//	printf("%s", ASCIInums[i++].hexString);
-//	printf("----");
 	}
     }
-    for (int i = 0; i < size1; i++){
-	printf("%d", ASCIInums[i].count);
-	printf("%s", ASCIInums[i].hexString);
-	printf("||");
+	com = 1;
+    if (result == 2){
+        for (b = 0; b < size2; b++){
+                if (UTFG1[b].isVal == 0) 
+                        continue;
+                com = strcmp(UTFG1[b].hexString, en);
+                if (com == 0)
+                   break;
+        }
+        if (com==0)
+                UTFG1[b].count++;
+        else{
+        UTFG1[j].isVal = 1;
+        UTFG1[j].count++;
+        UTFG1[j].hexString = malloc(1 + result);
+        strcpy(UTFG1[j++].hexString, en);
+        }
     }
-   /* if (0x00 <= result <= 0x7F)
-	printf("%d", 0);
-    if (0x80 <= result  <= 0x7FF)
-	printf("%d", 1);
-    if (0x800 <= result <= 0xFFFF)
-	printf("%d", 2);
-    if (0x10000 <= result <= 0x1FFFFF)
-	printf("%d", 3);
-	*/
+    com = 1;
+    if (result == 3){
+        for (c = 0; c < size3; a++){
+                if (UTFG2[c].isVal == 0)
+                        continue;
+                com = strcmp(UTFG2[c].hexString, en);
+                if (com == 0)
+                   break;
+        }
+        if (com==0)
+                UTFG2[c].count++;
+        else{
+        UTFG2[k].isVal = 1;
+        UTFG2[k].count++;
+        UTFG2[k].hexString = malloc(1 + result);
+        strcpy(UTFG2[k++].hexString, en);
+        }
+    }
+    com = 1;
+    printf("%d", result);
+    if (result == 4){
+        for (d = 0; d < size4; d++){
+                if (UTFG3[d].isVal == 0)
+                        continue;
+                com = strcmp(UTFG3[d].hexString, en);
+                if (com == 0)
+                   break;
+        }
+        if (com==0)
+                UTFG3[d].count++;
+        else{
+        UTFG3[f].isVal = 1;
+        UTFG3[f].count++;
+        UTFG3[f].hexString = malloc(1 + result);
+        strcpy(UTFG3[f++].hexString, en);
+        }
+	    printf("%s", UTFG3[0].hexString);
+	    printf("%d", UTFG3[0].count);
+	    printf("%d", UTFG3[0].isVal);
+	    printf("||");
+    }
     return 0;
 }

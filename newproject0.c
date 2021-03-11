@@ -11,7 +11,10 @@
 #define size4 1048576
 struct element{
 	int count;
-	char *hexString;
+	char byte1;
+	char byte2;
+	char byte3;
+	char byte4;
 	bool isVal;
 };
 
@@ -28,8 +31,13 @@ int main(int argc, char *argv){
     FILE *fd;
     fd = fopen("example.txt", "r");
     int result;
-//    ch = fgetc(fd)
-    while ((ch = fgetc(fd)) != EOF)
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    int f = 0;
+    int com = 0;
+    ch = fgetc(fd);
+    while (ch  != EOF)
         {
     /*        printf("%c", ch);
 	    printf("====");
@@ -44,16 +52,9 @@ int main(int argc, char *argv){
 	result = 3;
     if ((unsigned char)ch >= 240)
 	result = 4;
-    printf("%d", result);
+/*    printf("%d", result);
     printf("||");
-	}
-/*    en[result] = '\0';
-    printf("%d", result);
-    int i = 0;
-    int j = 0;
-    int k = 0;
-    int f = 0;
-    int com = 1;
+    printf("%d", result);*/
     int a;
     int b;
     int c;
@@ -62,19 +63,21 @@ int main(int argc, char *argv){
 	for (a = 0; a < size1; a++){
 		if (ASCIInums[a].isVal == 0)
 			continue;
-		com = strcmp(ASCIInums[a].hexString, en);
-		if (com == 0)
+		com = (ASCIInums[a].byte1 == ch);
+		if (com == 1)
 		   break;
 	}
-	if (com==0)
+	if (com==1)
 		ASCIInums[a].count++;
 	else{
 	ASCIInums[i].isVal = 1;
 	ASCIInums[i].count++;
-	ASCIInums[i].hexString = malloc(1 + result);
-        strcpy(ASCIInums[i++].hexString, en);
+	ASCIInums[i].byte1 = ch;
+	printf("%c", ASCIInums[i++].byte1);
 	}
     }
+    ch = fgetc(fd);
+    /*
 	com = 1;
     if (result == 2){
         for (b = 0; b < size2; b++){
@@ -133,7 +136,9 @@ int main(int argc, char *argv){
 	    printf("%d", UTFG3[0].count);
 	    printf("%d", UTFG3[0].isVal);
 	    printf("||");
+    	}
     }
-*/
+    */
+	}
     return 0;
 }

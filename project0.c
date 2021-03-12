@@ -46,7 +46,7 @@ void printOut(struct element elements[], int structSize){
         //structSize
         for (j = i + 1; j < structSize; j++) {
             // printf("orig = %s", elements[i].arr);
-            if (elements[j].size > elements[max].size)
+            if (elements[j].count > elements[max].count)
                 max = j;
         }
             if (max != i) {
@@ -89,7 +89,6 @@ int main(int argc, char **argv){
     ch = fgetc(stdin);
     while (ch  != EOF)
     {
-        if (ch == 0X0A)break;
         /*        printf("%c", ch);
                 printf("====");
         */

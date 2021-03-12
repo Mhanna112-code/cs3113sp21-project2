@@ -1,6 +1,5 @@
 #The main rule
 all:
-	gcc project0.c
-	./project0.c
+	gcc project0.c -o project0
 clean:
-	rm a.out project0.c
+	rm a.out project0

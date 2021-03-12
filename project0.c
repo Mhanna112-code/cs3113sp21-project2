@@ -1,6 +1,4 @@
 #include <stdio.h>
-
-#include <stdio.h>
 #define MAX_BUF 1024
 #include<fcntl.h>
 #include<errno.h>
@@ -43,11 +41,10 @@ void swap (struct element  *A, struct element *B) {
 void printOut(struct element elements[], int structSize){
     int i, j, max;
     // struct element *temporary;
-    //structsize - 1
-    for (i  = 0; i < 2; i++){
+    for (i  = 0; i < structSize - 1; i++){
         max = i;
         //structSize
-        for (j = i + 1; j < 3; j++) {
+        for (j = i + 1; j < structSize; j++) {
             // printf("orig = %s", elements[i].arr);
             if (elements[j].size > elements[max].size)
                 max = j;
@@ -81,15 +78,15 @@ int main(int argc, char **argv){
     memset(UTFG2, 0, sizeof(UTFG2));
     memset(UTFG3, 0, sizeof(UTFG3));
     char ch;
-    FILE *fd;
-    fd = fopen("example.txt", "r");
+    //FILE *fd;
+    //fd = fopen("C:\\Users\\march\\CLionProjects\\cs3113-project0\\example.txt", "r");
     int result;
     int i = 0;
     int j = 0;
     int k = 0;
     int f = 0;
     int com = 0;
-    ch = fgetc(fd);
+    ch = fgetc(stdin);
     while (ch  != EOF)
     {
         if (ch == 0X0A)break;
@@ -112,13 +109,6 @@ int main(int argc, char **argv){
         int b;
         int c;
         int d;
-        char enc1[size1];
-        char enc2[size1];
-        char enc3[size1];
-        char enc4[size1];
-        memset(enc2, 0, sizeof(enc2));
-        memset(enc3, 0, sizeof(enc3));
-        memset(enc4, 0, sizeof(enc4));
         char twoC;
         char threeC;
         char fourC;
@@ -150,7 +140,7 @@ int main(int argc, char **argv){
             }
         }
         if (result == 2){
-            twoC = fgetc(fd);
+            twoC = fgetc(stdin);
             for (b = 0; b < size1; b++){
                 if (UTFG1[b].isVal == 0)
                     continue;
@@ -172,8 +162,8 @@ int main(int argc, char **argv){
         }
 
         if (result == 3){
-            twoC = fgetc(fd);
-            threeC = fgetc(fd);
+            twoC = fgetc(stdin);
+            threeC = fgetc(stdin);
             for (c = 0; c < size1; c++){
                 if (UTFG2[c].isVal == 0)
                     continue;
@@ -197,9 +187,9 @@ int main(int argc, char **argv){
         }
 
         if (result == 4){
-            twoC = fgetc(fd);
-            threeC = fgetc(fd);
-            fourC = fgetc(fd);
+            twoC = fgetc(stdin);
+            threeC = fgetc(stdin);
+            fourC = fgetc(stdin);
             for (d = 0; d < size1; d++){
                 if (UTFG3[d].isVal == 0)
                     continue;
@@ -226,7 +216,7 @@ int main(int argc, char **argv){
             }
         }
         com = 0;
-        ch = fgetc(fd);
+        ch = fgetc(stdin);
     }
     printOut(UTFG3, size1);
     printOut(UTFG2, size1);

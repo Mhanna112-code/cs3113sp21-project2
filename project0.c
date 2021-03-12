@@ -69,10 +69,10 @@ void printOut(struct element elements[], int structSize){
 }
 
 int main(int argc, char **argv){
-    struct element ASCIInums[size1];
-    struct element UTFG1[size1];
-    struct element UTFG2[size1];
-    struct element UTFG3[size1];
+    struct element ASCIInums[size2];
+    struct element UTFG1[size2];
+    struct element UTFG2[size2];
+    struct element UTFG3[size2];
     memset(ASCIInums, 0, sizeof(ASCIInums));
     memset(UTFG1, 0, sizeof(UTFG1));
     memset(UTFG2, 0, sizeof(UTFG2));
@@ -112,7 +112,7 @@ int main(int argc, char **argv){
         char threeC;
         char fourC;
         if (result ==  1){
-            for (a = 0; a < size1; a++){
+            for (a = 0; a < size2; a++){
                 if (ASCIInums[a].isVal == 0)
                     continue;
                 com = (ASCIInums[a].byte1 == ch);
@@ -140,7 +140,7 @@ int main(int argc, char **argv){
         }
         if (result == 2){
             twoC = fgetc(stdin);
-            for (b = 0; b < size1; b++){
+            for (b = 0; b < size2; b++){
                 if (UTFG1[b].isVal == 0)
                     continue;
                 com = (UTFG1[b].byte1 == (unsigned char)ch)&(UTFG1[b].byte2 == (unsigned char)twoC);
@@ -163,7 +163,7 @@ int main(int argc, char **argv){
         if (result == 3){
             twoC = fgetc(stdin);
             threeC = fgetc(stdin);
-            for (c = 0; c < size1; c++){
+            for (c = 0; c < size2; c++){
                 if (UTFG2[c].isVal == 0)
                     continue;
                 com = (UTFG2[c].byte1 == (unsigned char)ch) & (UTFG2[c].byte2 == (unsigned char)twoC) & (UTFG2[c].byte3 == (unsigned char)threeC);
@@ -189,7 +189,7 @@ int main(int argc, char **argv){
             twoC = fgetc(stdin);
             threeC = fgetc(stdin);
             fourC = fgetc(stdin);
-            for (d = 0; d < size1; d++){
+            for (d = 0; d < size2; d++){
                 if (UTFG3[d].isVal == 0)
                     continue;
                 com = (UTFG3[d].byte1 == (unsigned char)ch) & (UTFG3[d].byte2 == (unsigned char)twoC) & (UTFG3[d].byte3 == (unsigned char)threeC) & (UTFG3[d].byte4 == (unsigned char)fourC);
@@ -217,10 +217,10 @@ int main(int argc, char **argv){
         com = 0;
         ch = fgetc(stdin);
     }
-    printOut(UTFG3, size1);
-    printOut(UTFG2, size1);
-    printOut(UTFG1, size1);
-    printOut(ASCIInums, size1);
+    printOut(UTFG3, size2);
+    printOut(UTFG2, size2);
+    printOut(UTFG1, size2);
+    printOut(ASCIInums, size2);
     //printOut(ASCIInums, size1);
     return 0;
 }

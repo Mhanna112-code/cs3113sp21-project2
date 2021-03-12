@@ -8,7 +8,7 @@
 #define size1 128
 #define size2 1921
 #define size3 63489
-#define size4 1048577
+#define size4 104857
 struct element{
     int count;
     unsigned char byte1;

@@ -2,4 +2,4 @@
 all:
 	gcc project0.c -o project0
 clean:
-	rm a.out project0
+	rm project0

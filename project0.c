@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #define size1 1112064
@@ -89,7 +88,7 @@ int main(int argc, char **argv){
         // printf("%08X", (unsigned char)ch)
         if ((unsigned char)ch < 128)
             result = 1;
-        if (ch == '\n')
+	if ((unsigned char)ch <= 32)
             result = 0;
         if ((unsigned char)ch >= 128 & ch < 224)
             result = 2;

@@ -1,14 +1,10 @@
 #include <stdio.h>
-#define MAX_BUF 1024
-#include<fcntl.h>
-#include<errno.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
-#define size1 128
-#define size2 1921
-#define size3 63489
-#define size4 104857
+#define size1 1112064
+#define size2 1112064
+#define size3 1112064
+#define size4 1112064
 struct element{
     int count;
     unsigned char byte1;
@@ -16,7 +12,6 @@ struct element{
     unsigned char byte3;
     unsigned char byte4;
     int size;
-    bool isVal;
 };
 void swap (struct element  *A, struct element *B) {
     unsigned char temp1 = A->byte1;
@@ -54,8 +49,6 @@ void printOut(struct element elements[], int structSize){
         }
     }
     for (i  = 0; i < structSize; i++){
-        if (elements[i].isVal == 0)
-            continue;
         char arr[4];
         arr[0] = elements[i].byte1;
         arr[1] = elements[i].byte2;
@@ -78,8 +71,8 @@ int main(int argc, char **argv){
     memset(UTFG2, 0, sizeof(UTFG2));
     memset(UTFG3, 0, sizeof(UTFG3));
     char ch;
-    //FILE *fd;
-    //fd = fopen("C:\\Users\\march\\CLionProjects\\cs3113-project0\\example.txt", "r");
+    //FILE fd;
+    //fd = fopen("C:\\Users\\march\\CLionProjects\\cs3113-project0\\unicode.txt", "r");
     int result;
     int i = 0;
     int j = 0;
@@ -112,9 +105,7 @@ int main(int argc, char **argv){
         char threeC;
         char fourC;
         if (result ==  1){
-            for (a = 0; a < size1; a++){
-                if (ASCIInums[a].isVal == 0)
-                    continue;
+            for (a = 0; a < i; a++){
                 com = (ASCIInums[a].byte1 == ch);
                 //      printf("com = ");
                 //      printf("%d", com);
@@ -124,10 +115,7 @@ int main(int argc, char **argv){
             if (com==1){
                 ASCIInums[a].count++;
             }
-            else{/*
-                printf("ch = %d", ch);
-                printf("i = %d", i);
-   */           ASCIInums[i].isVal = 1;
+            else{
                 ASCIInums[i].count++;
                 ASCIInums[i].byte1 = ch;
 //      printf("ch = %c", ASCIInums[i].byte1);
@@ -139,10 +127,8 @@ int main(int argc, char **argv){
             }
         }
         if (result == 2){
-            twoC = fgetc(stdin);
-            for (b = 0; b < size2; b++){
-                if (UTFG1[b].isVal == 0)
-                    continue;
+             twoC= fgetc(stdin);
+            for (b = 0; b < j; b++){
                 com = (UTFG1[b].byte1 == (unsigned char)ch)&(UTFG1[b].byte2 == (unsigned char)twoC);
                 if (com == 1)
                     break;
@@ -150,7 +136,6 @@ int main(int argc, char **argv){
             if (com==1)
                 UTFG1[b].count++;
             else{
-                UTFG1[j].isVal = 1;
                 UTFG1[j].count++;
                 UTFG1[j].byte1 = (unsigned char) ch;
                 UTFG1[j].byte2 = (unsigned char) twoC;
@@ -161,11 +146,9 @@ int main(int argc, char **argv){
         }
 
         if (result == 3){
-            twoC = fgetc(stdin);
-            threeC = fgetc(stdin);
-            for (c = 0; c < size3; c++){
-                if (UTFG2[c].isVal == 0)
-                    continue;
+            twoC= fgetc(stdin);
+            threeC= fgetc(stdin);
+            for (c = 0; c < k; c++){
                 com = (UTFG2[c].byte1 == (unsigned char)ch) & (UTFG2[c].byte2 == (unsigned char)twoC) & (UTFG2[c].byte3 == (unsigned char)threeC);
                 if (com == 1)
                     break;
@@ -173,7 +156,6 @@ int main(int argc, char **argv){
             if (com==1)
                 UTFG2[c].count++;
             else{
-                UTFG2[k].isVal = 1;
                 UTFG2[k].count++;
                 UTFG2[k].byte1 = (unsigned char)ch;
                 UTFG2[k].byte2 = (unsigned char)twoC;
@@ -186,12 +168,10 @@ int main(int argc, char **argv){
         }
 
         if (result == 4){
-            twoC = fgetc(stdin);
-            threeC = fgetc(stdin);
-            fourC = fgetc(stdin);
-            for (d = 0; d < size4; d++){
-                if (UTFG3[d].isVal == 0)
-                    continue;
+            twoC= fgetc(stdin);
+            threeC= fgetc(stdin);
+            fourC= fgetc(stdin);
+            for (d = 0; d < f; d++){
                 com = (UTFG3[d].byte1 == (unsigned char)ch) & (UTFG3[d].byte2 == (unsigned char)twoC) & (UTFG3[d].byte3 == (unsigned char)threeC) & (UTFG3[d].byte4 == (unsigned char)fourC);
                 if (com == 1)
                     break;
@@ -199,7 +179,6 @@ int main(int argc, char **argv){
             if (com==1)
                 UTFG3[d].count++;
             else{
-                UTFG3[f].isVal = 1;
                 UTFG3[f].count++;
                 UTFG3[f].byte1 = (unsigned char)ch;
                 UTFG3[f].byte2 = (unsigned char)twoC;
@@ -217,9 +196,13 @@ int main(int argc, char **argv){
         com = 0;
         ch = fgetc(stdin);
     }
-    printOut(UTFG3, size4);
-    printOut(UTFG2, size3);
-    printOut(UTFG1, size2);
-    printOut(ASCIInums, size1);
+    i -=1;
+    j -=1;
+    k -=1;
+    f -=1;
+    printOut(UTFG3, f);
+    printOut(UTFG2, k);
+    printOut(UTFG1, j);
+    printOut(ASCIInums, i);
     return 0;
 }

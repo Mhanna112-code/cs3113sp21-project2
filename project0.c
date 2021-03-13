@@ -71,8 +71,8 @@ int main(int argc, char **argv){
     memset(UTFG2, 0, sizeof(UTFG2));
     memset(UTFG3, 0, sizeof(UTFG3));
     char ch;
-    //FILE fd;
-    //fd = fopen("C:\\Users\\march\\CLionProjects\\cs3113-project0\\unicode.txt", "r");
+    //FILE *stdin;
+    //stdin = fopen("C:\\Users\\march\\CLionProjects\\cs3113-project0\\e.txt", "r");
     int result;
     int i = 0;
     int j = 0;
@@ -80,6 +80,7 @@ int main(int argc, char **argv){
     int f = 0;
     int com = 0;
     ch = fgetc(stdin);
+    //printf('%d', EOF);
     while (ch  != EOF)
     {
         /*        printf("%c", ch);
@@ -88,6 +89,8 @@ int main(int argc, char **argv){
         // printf("%08X", (unsigned char)ch)
         if ((unsigned char)ch < 128)
             result = 1;
+        if (ch == '\n')
+            result = 0;
         if ((unsigned char)ch >= 128 & ch < 224)
             result = 2;
         if ((unsigned char)ch >= 224 & ch < 240 )
@@ -97,6 +100,8 @@ int main(int argc, char **argv){
 /*    printf("%d", result);
     printf("||");
     printf("%d", result);*/
+        //if (ch == '\n')
+        //    ch = fgetc(stdin);
         int a;
         int b;
         int c;
@@ -127,7 +132,7 @@ int main(int argc, char **argv){
             }
         }
         if (result == 2){
-             twoC= fgetc(stdin);
+            twoC= fgetc(stdin);
             for (b = 0; b < j; b++){
                 com = (UTFG1[b].byte1 == (unsigned char)ch)&(UTFG1[b].byte2 == (unsigned char)twoC);
                 if (com == 1)
@@ -196,10 +201,6 @@ int main(int argc, char **argv){
         com = 0;
         ch = fgetc(stdin);
     }
-    i -=1;
-    j -=1;
-    k -=1;
-    f -=1;
     printOut(UTFG3, f);
     printOut(UTFG2, k);
     printOut(UTFG1, j);

@@ -49,9 +49,9 @@ void printOut(struct element elements[], int structSize){
             if (elements[j].count > elements[max].count)
                 max = j;
         }
-            if (max != i) {
-                swap(&elements[i], &elements[max]);
-            }
+        if (max != i) {
+            swap(&elements[i], &elements[max]);
+        }
     }
     for (i  = 0; i < structSize; i++){
         if (elements[i].isVal == 0)
@@ -69,10 +69,10 @@ void printOut(struct element elements[], int structSize){
 }
 
 int main(int argc, char **argv){
-    struct element ASCIInums[size1];
-    struct element UTFG1[size2];
-    struct element UTFG2[size3];
-    struct element UTFG3[size4];
+    struct element *ASCIInums = malloc(size1 * sizeof(struct element));
+    struct element *UTFG1 = malloc(size2 * sizeof(struct element));
+    struct element *UTFG2 = malloc(size3 * sizeof(struct element));
+    struct element *UTFG3 = malloc(size4 * sizeof(struct element));
     memset(ASCIInums, 0, sizeof(ASCIInums));
     memset(UTFG1, 0, sizeof(UTFG1));
     memset(UTFG2, 0, sizeof(UTFG2));
@@ -221,6 +221,5 @@ int main(int argc, char **argv){
     printOut(UTFG2, size3);
     printOut(UTFG1, size2);
     printOut(ASCIInums, size1);
-    //printOut(ASCIInums, size1);
     return 0;
 }

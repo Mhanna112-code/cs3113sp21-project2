@@ -45,12 +45,12 @@ void printOut(struct element elements[], int structSize){
         }
     }
     for (i  = 0; i < structSize; i++){
-        unsigned char arr[4];
+        char arr[4];
         arr[0] = elements[i].byte1;
         arr[1] = elements[i].byte2;
         arr[2] = elements[i].byte3;
         arr[3] = elements[i].byte4;
-        unsigned char *str = &arr[0];
+        char *str = &arr[0];
         printf("%s", str);
         printf("->");
         printf("%d\n", elements[i].count);
@@ -68,9 +68,9 @@ int main(int argc, char **argv){
     int com = 0;
     ch = fgetc(stdin);
     int a;
-    unsigned char twoC;
-    unsigned char threeC;
-    unsigned char fourC;
+    char twoC;
+    char threeC;
+    char fourC;
     int isVal = 1;
     while (ch  != EOF) {
         if ((unsigned char) ch < 192)
@@ -104,15 +104,15 @@ int main(int argc, char **argv){
         if (isVal == 1) {
             for (a = 0; a < f; a++) {
                 if (result == 1)
-                    com = (UTFG1[a].byte1 == (unsigned char) ch);
+                    com = (UTFG1[a].byte1 == ch);
                 if (result == 2)
-                    com = ((UTFG1[a].byte1 == (unsigned char) ch) & ((UTFG1[a].byte2) == (unsigned char) twoC));
+                    com = ((UTFG1[a].byte1 == ch) & ((UTFG1[a].byte2) == twoC));
                 if (result == 3) 
-                    com = (UTFG1[a].byte1 == (unsigned char) ch) & (UTFG1[a].byte2 == (unsigned char) twoC) &
-                          (UTFG1[a].byte3 == (unsigned char) threeC);
+                    com = (UTFG1[a].byte1 == ch) & (UTFG1[a].byte2 == twoC) &
+                          (UTFG1[a].byte3 == threeC);
                 if (result == 4) 
-                    com = (UTFG1[a].byte1 == (unsigned char) ch) & (UTFG1[a].byte2 == (unsigned char) twoC) &
-                          (UTFG1[a].byte3 == (unsigned char) threeC) & (UTFG1[a].byte4 == (unsigned char) fourC);
+                    com = (UTFG1[a].byte1 == ch) & (UTFG1[a].byte2 == twoC) &
+                          (UTFG1[a].byte3 == threeC) & (UTFG1[a].byte4 == fourC);
                 if (com == 1)
                     break;
             }
@@ -121,23 +121,23 @@ int main(int argc, char **argv){
             else {
                 UTFG1[f].count++;
                 if (result == 1)
-                    UTFG1[f].byte1 = (unsigned char) ch;
+                    UTFG1[f].byte1 = ch;
                 if (result == 2) {
-                    UTFG1[f].byte1 = (unsigned char) ch;
+                    UTFG1[f].byte1 = ch;
                     UTFG1[f].byte2 = twoC;
                 }
                 if (result == 3){
-                    UTFG1[f].byte1 = (unsigned char) ch;
+                    UTFG1[f].byte1 = ch;
                     UTFG1[f].byte2 = twoC;
                     UTFG1[f].byte3 = threeC;
                 }
                 if (result == 4){
-                    UTFG1[f].byte1 = (unsigned char) ch;
+                    UTFG1[f].byte1 = ch;
                     UTFG1[f].byte2 = twoC;
                     UTFG1[f].byte3 = threeC;
                     UTFG1[f].byte4 = fourC;
                 }
-                UTFG1[f].size = UTFG1[f].byte1 + UTFG1[f].byte2 + UTFG1[f].byte3 + UTFG1[f].byte4;
+                UTFG1[f].size = (unsigned char)UTFG1[f].byte1 + (unsigned char)UTFG1[f].byte2 + (unsigned char)UTFG1[f].byte3 + (unsigned char)UTFG1[f].byte4;
                 f++;
             }
         }

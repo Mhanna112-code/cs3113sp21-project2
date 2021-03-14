@@ -83,8 +83,8 @@ int main(int argc, char **argv){
         // printf("%08X", (unsigned char)ch)
         if ((unsigned char) ch < 128)
             result = 1;
-        if (ch == '\n')
-            result = 0;
+       // if (ch == '\n')
+    	 //   result = 0;
         if ((unsigned char) ch >= 128 & ch < 224)
             result = 2;
         if ((unsigned char) ch >= 224 & ch < 240)

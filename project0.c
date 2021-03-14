@@ -34,12 +34,9 @@ void swap (struct element  *A, struct element *B) {
 }
 void printOut(struct element elements[], int structSize){
     int i, j, max;
-    // struct element *temporary;
     for (i  = 0; i < structSize - 1; i++){
         max = i;
-        //structSize
         for (j = i + 1; j < structSize; j++) {
-            // printf("orig = %s", elements[i].arr);
             if (elements[j].count > elements[max].count)
                 max = j;
         }
@@ -64,27 +61,27 @@ int main(int argc, char **argv){
     struct element *UTFG1 = malloc(MAX_SIZE * sizeof(struct element));
     memset(UTFG1, 0, sizeof(UTFG1));
     char ch;
-    FILE *fd;
-    fd = fopen("C:\\Users\\march\\CLionProjects\\cs3113-project0\\e.txt", "r");
+    //FILE *fd;
+    //fd = fopen("C:\\Users\\march\\CLionProjects\\cs3113-project0\\e.txt", "r");
     int result;
     int f = 0;
     int com = 0;
     ch = fgetc(stdin);
     int a;
-    char twoC;
-    char threeC;
-    char fourC;
+    unsigned char twoC;
+    unsigned char threeC;
+    unsigned char fourC;
     int isVal = 1;
     while (ch  != EOF) {
-        if ((unsigned char) ch < 128)
+        if ((unsigned char) ch < 192)
             result = 1;
-       // if (ch == '\n')
-    	 //   result = 0;
-        if ((unsigned char) ch >= 128 &(unsigned char) ch < 224)
+        if ((ch == '\n') || (ch == ' '))
+            result = 0;
+        if ((unsigned char) ch >= 192 & (unsigned char)ch < 224)
             result = 2;
-        if ((unsigned char) ch >= 224 &(unsigned char) ch < 240)
+        if ((unsigned char) ch >= 224 & (unsigned char)ch < 240)
             result = 3;
-        if ((unsigned char) ch >= 240)
+        if ((unsigned char)ch >= 240)
             result = 4;
 
         if (result == 0) {
@@ -97,7 +94,7 @@ int main(int argc, char **argv){
         if (result == 3) {
             twoC = fgetc(stdin);
             threeC = fgetc(stdin);
-       }
+        }
 
         if (result == 4) {
             twoC = fgetc(stdin);
@@ -127,18 +124,18 @@ int main(int argc, char **argv){
                     UTFG1[f].byte1 = (unsigned char) ch;
                 if (result == 2) {
                     UTFG1[f].byte1 = (unsigned char) ch;
-                    UTFG1[f].byte2 = (unsigned char) twoC;
+                    UTFG1[f].byte2 = twoC;
                 }
                 if (result == 3){
                     UTFG1[f].byte1 = (unsigned char) ch;
-                    UTFG1[f].byte2 = (unsigned char) twoC;
-                    UTFG1[f].byte3 = (unsigned char) threeC;
+                    UTFG1[f].byte2 = twoC;
+                    UTFG1[f].byte3 = threeC;
                 }
                 if (result == 4){
                     UTFG1[f].byte1 = (unsigned char) ch;
-                    UTFG1[f].byte2 = (unsigned char) twoC;
-                    UTFG1[f].byte3 = (unsigned char) threeC;
-                    UTFG1[f].byte4 = (unsigned char) fourC;
+                    UTFG1[f].byte2 = twoC;
+                    UTFG1[f].byte3 = threeC;
+                    UTFG1[f].byte4 = fourC;
                 }
                 UTFG1[f].size = UTFG1[f].byte1 + UTFG1[f].byte2 + UTFG1[f].byte3 + UTFG1[f].byte4;
                 f++;
@@ -147,15 +144,6 @@ int main(int argc, char **argv){
         isVal = 1;
         com = 0;
         ch = fgetc(stdin);
-    }
-
-    char nl;
-    for (a = 0; a < f; a++) {
-        nl = UTFG1[a].byte1;
-	if (nl == '\n'){
-		UTFG1[a].count--;
-		break;
-	}
     }
     printOut(UTFG1, f);
     return 0;

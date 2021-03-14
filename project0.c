@@ -61,8 +61,8 @@ int main(int argc, char **argv){
     struct element *UTFG1 = malloc(MAX_SIZE * sizeof(struct element));
     memset(UTFG1, 0, sizeof(UTFG1));
     char ch;
-    //FILE *fd;
-    //fd = fopen("C:\\Users\\march\\CLionProjects\\cs3113-project0\\e.txt", "r");
+    FILE *fd;
+    fd = fopen("C:\\Users\\march\\CLionProjects\\cs3113-project0\\e.txt", "r");
     int result;
     int f = 0;
     int com = 0;
@@ -73,20 +73,14 @@ int main(int argc, char **argv){
     char fourC;
     int isVal = 1;
     while (ch  != EOF) {
-        if ((unsigned char) ch < 192)
+    	if ((unsigned char) ch < 192)
             result = 1;
-        if ((ch == '\n') || (ch == ' '))
-            result = 0;
         if ((unsigned char) ch >= 192 & (unsigned char)ch < 224)
             result = 2;
         if ((unsigned char) ch >= 224 & (unsigned char)ch < 240)
             result = 3;
         if ((unsigned char)ch >= 240)
             result = 4;
-
-        if (result == 0) {
-            isVal = 0;
-        }
         if (result == 2) {
             twoC = fgetc(stdin);
         }
@@ -104,15 +98,14 @@ int main(int argc, char **argv){
         if (isVal == 1) {
             for (a = 0; a < f; a++) {
                 if (result == 1)
-                    com = (UTFG1[a].byte1 == ch);
+                    com = (UTFG1[a].byte1 == (unsigned char) ch);
                 if (result == 2)
-                    com = ((UTFG1[a].byte1 == ch) & ((UTFG1[a].byte2) == twoC));
+                    com = ((UTFG1[a].byte1 == (unsigned char) ch) & ((UTFG1[a].byte2) == (unsigned char) twoC));
                 if (result == 3) 
-                    com = (UTFG1[a].byte1 == ch) & (UTFG1[a].byte2 == twoC) &
-                          (UTFG1[a].byte3 == threeC);
+                    com = (UTFG1[a].byte1 == (unsigned char) ch) & (UTFG1[a].byte2 == (unsigned char) twoC) & (UTFG1[a].byte3 == (unsigned char) threeC);
                 if (result == 4) 
-                    com = (UTFG1[a].byte1 == ch) & (UTFG1[a].byte2 == twoC) &
-                          (UTFG1[a].byte3 == threeC) & (UTFG1[a].byte4 == fourC);
+                    com = (UTFG1[a].byte1 == (unsigned char) ch) & (UTFG1[a].byte2 == (unsigned char) twoC) &
+                          (UTFG1[a].byte3 == (unsigned char) threeC) & (UTFG1[a].byte4 == (unsigned char) fourC);
                 if (com == 1)
                     break;
             }
@@ -121,23 +114,23 @@ int main(int argc, char **argv){
             else {
                 UTFG1[f].count++;
                 if (result == 1)
-                    UTFG1[f].byte1 = ch;
+                    UTFG1[f].byte1 = (unsigned char) ch;
                 if (result == 2) {
-                    UTFG1[f].byte1 = ch;
-                    UTFG1[f].byte2 = twoC;
+                    UTFG1[f].byte1 = (unsigned char) ch;
+                    UTFG1[f].byte2 = (unsigned char) twoC;
                 }
                 if (result == 3){
-                    UTFG1[f].byte1 = ch;
-                    UTFG1[f].byte2 = twoC;
-                    UTFG1[f].byte3 = threeC;
+                    UTFG1[f].byte1 = (unsigned char) ch;
+                    UTFG1[f].byte2 = (unsigned char) twoC;
+                    UTFG1[f].byte3 = (unsigned char) threeC;
                 }
                 if (result == 4){
-                    UTFG1[f].byte1 = ch;
-                    UTFG1[f].byte2 = twoC;
-                    UTFG1[f].byte3 = threeC;
-                    UTFG1[f].byte4 = fourC;
+                    UTFG1[f].byte1 = (unsigned char) ch;
+                    UTFG1[f].byte2 = (unsigned char) twoC;
+                    UTFG1[f].byte3 = (unsigned char) threeC;
+                    UTFG1[f].byte4 = (unsigned char) fourC;
                 }
-                UTFG1[f].size = (unsigned char)UTFG1[f].byte1 + (unsigned char)UTFG1[f].byte2 + (unsigned char)UTFG1[f].byte3 + (unsigned char)UTFG1[f].byte4;
+                UTFG1[f].size = UTFG1[f].byte1 + UTFG1[f].byte2 + UTFG1[f].byte3 + UTFG1[f].byte4;
                 f++;
             }
         }
@@ -148,3 +141,4 @@ int main(int argc, char **argv){
     printOut(UTFG1, f);
     return 0;
 }
+

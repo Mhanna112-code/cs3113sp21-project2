@@ -70,17 +70,12 @@ int main(int argc, char **argv){
     int f = 0;
     int com = 0;
     ch = fgetc(stdin);
-    //printf('%d', EOF);
     int a;
     char twoC;
     char threeC;
     char fourC;
     int isVal = 1;
     while (ch  != EOF) {
-        /*        printf("%c", ch);
-                printf("====");
-        */
-        // printf("%08X", (unsigned char)ch)
         if ((unsigned char) ch < 128)
             result = 1;
        // if (ch == '\n')
@@ -91,11 +86,7 @@ int main(int argc, char **argv){
             result = 3;
         if ((unsigned char) ch >= 240)
             result = 4;
-/*    printf("%d", result);
-    printf("||");
-    printf("%d", result);*/
-        //if (ch == '\n')
-        //    ch = fgetc(stdin);
+
         if (result == 0) {
             isVal = 0;
         }
@@ -106,7 +97,7 @@ int main(int argc, char **argv){
         if (result == 3) {
             twoC = fgetc(stdin);
             threeC = fgetc(stdin);
-        }
+       }
 
         if (result == 4) {
             twoC = fgetc(stdin);
@@ -150,7 +141,6 @@ int main(int argc, char **argv){
                     UTFG1[f].byte4 = (unsigned char) fourC;
                 }
                 UTFG1[f].size = UTFG1[f].byte1 + UTFG1[f].byte2 + UTFG1[f].byte3 + UTFG1[f].byte4;
-                //      printf("%s", enc4);
                 f++;
             }
         }

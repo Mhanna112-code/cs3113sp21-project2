@@ -48,7 +48,7 @@ void printOut(struct element elements[], int structSize){
         }
     }
     for (i  = 0; i < structSize; i++){
-        char arr[4];
+        unsigned char arr[4];
         arr[0] = elements[i].byte1;
         arr[1] = elements[i].byte2;
         arr[2] = elements[i].byte3;

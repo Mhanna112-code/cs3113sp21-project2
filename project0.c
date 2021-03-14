@@ -53,7 +53,7 @@ void printOut(struct element elements[], int structSize){
         arr[1] = elements[i].byte2;
         arr[2] = elements[i].byte3;
         arr[3] = elements[i].byte4;
-        char *str = &arr[0];
+        unsigned char *str = &arr[0];
         printf("%s", str);
         printf("->");
         printf("%d\n", elements[i].count);
@@ -85,9 +85,9 @@ int main(int argc, char **argv){
             result = 1;
        // if (ch == '\n')
     	 //   result = 0;
-        if ((unsigned char) ch >= 128 & ch < 224)
+        if ((unsigned char) ch >= 128 &(unsigned char) ch < 224)
             result = 2;
-        if ((unsigned char) ch >= 224 & ch < 240)
+        if ((unsigned char) ch >= 224 &(unsigned char) ch < 240)
             result = 3;
         if ((unsigned char) ch >= 240)
             result = 4;

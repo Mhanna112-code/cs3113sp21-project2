@@ -158,6 +158,15 @@ int main(int argc, char **argv){
         com = 0;
         ch = fgetc(stdin);
     }
+
+    char nl;
+    for (a = 0; a < f; a++) {
+        nl = UTFG1[a].byte1;
+	if (nl == '\n'){
+		UTFG1[a].count--;
+		break;
+	}
+    }
     printOut(UTFG1, f);
     return 0;
 }

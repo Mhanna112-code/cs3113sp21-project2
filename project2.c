@@ -349,7 +349,7 @@ void performFirstFit(struct Instruction instructions[], int numInstructions, str
                     }
                 }
                 if (processFound == 1)
-                    printf("Free %s %d %d\n", instructions[i].ID, instructions[i].size, temp);
+                    printf("FREE %s %d %d\n", instructions[i].ID, instructions[i].size, temp);
                 else
                     printf("FAIL RELEASE %s\n", instructions[i].ID);
             }
@@ -452,7 +452,7 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
                     }
                 }
                 if (processFound == 1)
-                    printf("Free %s %d %d\n", instructions[i].ID, instructions[i].size, temp);
+                    printf("FREE %s %d %d\n", instructions[i].ID, instructions[i].size, temp);
                 else
                     printf("FAIL RELEASE %s\n", instructions[i].ID);
             }
@@ -539,7 +539,7 @@ void performWorstFit(struct Instruction instructions[], int numInstructions, str
                     }
                 }
                 if (processFound == 1)
-                    printf("Free %s %d %d\n", instructions[i].ID, instructions[i].size, temp);
+                    printf("FREE %s %d %d\n", instructions[i].ID, instructions[i].size, temp);
                 else
                     printf("FAIL RELEASE %s\n", instructions[i].ID);
             }
@@ -634,7 +634,7 @@ void performBestFit(struct Instruction instructions[], int numInstructions, stru
                     }
                 }
                 if (processFound == 1) {
-                    printf("Free %s %d %d\n", instructions[i].ID, instructions[i].size, temp);
+                    printf("FREE %s %d %d\n", instructions[i].ID, instructions[i].size, temp);
                     processFound = 0;
                     continue;
                 }

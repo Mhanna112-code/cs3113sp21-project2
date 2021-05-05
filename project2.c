@@ -236,7 +236,7 @@ void findProcess(char* PID, struct Process processes[]){
         if (processes[i].PID != NULL) {
             str = strstr(processes[i].PID, PID);
             if (str != NULL && fFlag != 1) {
-                printf("(%s,%d,%d)\n", PID, processes[i].size, i);
+                printf("(%s, %d, %d)\n", PID, processes[i].size, i);
                 fFlag = 1;
             }
         }

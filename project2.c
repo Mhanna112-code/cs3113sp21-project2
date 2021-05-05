@@ -112,6 +112,7 @@ int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct
 
 long long max = 0;
 int oPtr = 0;
+int tFlag = 0;
 int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struct Instruction ins) {
     int endFlag = 0;
     int tmpIdx = 0;
@@ -137,18 +138,19 @@ int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struc
             }
             if (availableSize >= ins.size) {
                 mFlag = 1;
+                tFlag = 1;
                 bestHole++;
             }
         }
     if (endFlag == 1) {
-        if (mFlag == 1)
+        if (tFlag == 1)
             return oPtr;
         return -1;
     }
     tmpIdx = tmpIdx - idx;
     newIdx = idx + tmpIdx + processes[idx].size;
     if (newIdx >= maxMemory) {
-        if (mFlag == 1)
+        if (tFlag == 1)
             return oPtr;
         return -1;
     }
@@ -157,13 +159,13 @@ int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struc
 
 long long min = LLONG_MAX;
 int pPtr = 0;
+int pFlag = 0;
 int calculateAvailableSizeForBestFit(int idx, struct Process processes[], struct Instruction ins) {
     int endFlag = 0;
     int tmpIdx = 0;
     int availableSize = 0;
     int bestHole = 0;
     int mFlag = 0;
-    int err = 0;
     int newIdx;
     for (int i = idx; i < maxMemory; i++){
         if (i == maxMemory - 1)
@@ -182,18 +184,19 @@ int calculateAvailableSizeForBestFit(int idx, struct Process processes[], struct
         }
         if (availableSize >= ins.size) {
             mFlag = 1;
+            pFlag = 1;
             bestHole++;
         }
     }
     if (endFlag == 1) {
-        if (mFlag == 1)
+        if (pFlag == 1)
             return pPtr;
         return -1;
     }
     tmpIdx = tmpIdx - idx;
     newIdx = idx + tmpIdx + processes[idx].size;
     if (newIdx >= maxMemory) {
-        if (mFlag == 1)
+        if (pFlag == 1)
             return pPtr;
         return -1;
     }
@@ -499,6 +502,9 @@ void performWorstFit(struct Instruction instructions[], int numInstructions, str
                 } else {
                     idx = 0;
                     idx = calculateAvailableSizeForWorstFit(idx, processes, instructions[i]);
+                    max = 0;
+                    oPtr = 0;
+                    tFlag = 0;
                     if (idx == -1)
                         printf("FAIL REQUEST %s %d\n", instructions[i].ID, instructions[i].size);
                     else {
@@ -593,6 +599,9 @@ void performBestFit(struct Instruction instructions[], int numInstructions, stru
                 } else {
                     idx = 0;
                     idx = calculateAvailableSizeForBestFit(idx, processes, instructions[i]);
+                    min = LLONG_MAX; 
+                    pPtr = 0;
+                    pFlag = 0;
                     if (idx == -1) {
                         printf("FAIL REQUEST %s %d\n", instructions[i].ID, instructions[i].size);
                         continue;

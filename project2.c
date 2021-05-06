@@ -10,7 +10,7 @@ struct Process{
 };
 
 
-long long maxMemory;
+unsigned long long maxMemory;
 char *fitType;
 FILE *fp;
 struct Instruction
@@ -22,9 +22,7 @@ struct Instruction
     int size;
 };
 
-struct Instruction instructions[1000000] = {0};
-
-int readInstructions(FILE *file)
+int readInstructions(FILE *file, struct Instruction instructions[])
 {
     struct Instruction instruction;
     char string[10];
@@ -117,7 +115,7 @@ int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct
     calculateAvailableSizeForNextFit(newIdx, processes, ins);
 }
 
-long long max = 0;
+unsigned long long max = 0;
 int oPtr = 0;
 int tFlag = 0;
 int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struct Instruction ins) {
@@ -173,7 +171,7 @@ int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struc
     calculateAvailableSizeForWorstFit(newIdx, processes, ins);
 }
 
-long long min = LLONG_MAX;
+unsigned long long min = LLONG_MAX;
 int pPtr = 0;
 int pFlag = 0;
 int calculateAvailableSizeForBestFit(int idx, struct Process processes[], struct Instruction ins) {
@@ -625,7 +623,7 @@ void performBestFit(struct Instruction instructions[], int numInstructions, stru
                 } else {
                     idx = 0;
                     idx = calculateAvailableSizeForBestFit(idx, processes, instructions[i]);
-                    min = LLONG_MAX; 
+                    min = ULLONG_MAX; 
                     pPtr = 0;
                     pFlag = 0;
                     if (idx == -1) {
@@ -699,9 +697,10 @@ void getInput(char **argv){
 }
 
 int main(int argc, char**argv) {
+    struct Instruction *instructions = (struct Instruction*) malloc(ULLONG_MAX * sizeof(struct Instruction));
     getInput(argv);
     struct Process *processes = (struct Process*) malloc(maxMemory * sizeof(struct Process));
-    int numI = readInstructions(fp);
+    int numI = readInstructions(fp, instructions);
     char* str = strstr(fitType, "FIRSTFIT");
     if (str != NULL)
         performFirstFit(instructions,numI,processes);

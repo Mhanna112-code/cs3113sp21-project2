@@ -66,7 +66,6 @@ int readInstructions(FILE *file)
 
 int calculateAvailableSize(int idx, struct Process processes[], struct Instruction ins){
     int availableSize = 0;
-    int temp = 0;
     int tmpIdx = maxMemory;
     for (int i = idx; i < maxMemory; i++){
         tmpIdx = i;
@@ -79,6 +78,7 @@ int calculateAvailableSize(int idx, struct Process processes[], struct Instructi
         if (i == maxMemory - 1)
             return -1;
     }
+    int temp = tmpIdx;
     temp = tmpIdx;
     tmpIdx = tmpIdx - idx;
     int newIdx = idx + tmpIdx + processes[temp].size;
@@ -104,8 +104,9 @@ int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct
             return calculateAvailableSizeForNextFit(0, processes, ins);
         }
     }
+    int temp = tmpIdx;
     tmpIdx = tmpIdx - idx;
-    int newIdx = idx + tmpIdx + processes[idx].size;
+    int newIdx = idx + tmpIdx + processes[temp].size;
     if (newIdx >= maxMemory - 1) {
         if (endFlag != 1) {
             endFlag = 1;
@@ -153,8 +154,9 @@ int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struc
             return oPtr;
         return -1;
     }
+    int temp = tmpIdx;
     tmpIdx = tmpIdx - idx;
-    newIdx = idx + tmpIdx + processes[idx].size;
+    newIdx = idx + tmpIdx + processes[temp].size;
     if (newIdx >= maxMemory) {
         if (tFlag == 1)
             return oPtr;
@@ -174,9 +176,9 @@ int calculateAvailableSizeForBestFit(int idx, struct Process processes[], struct
     int mFlag = 0;
     int newIdx;
     for (int i = idx; i < maxMemory; i++){
+        tmpIdx = i;
         if (i == maxMemory - 1)
             endFlag = 1;
-        tmpIdx = i;
         if (processes[i].full != 700)
             availableSize++;
         else{
@@ -199,8 +201,9 @@ int calculateAvailableSizeForBestFit(int idx, struct Process processes[], struct
             return pPtr;
         return -1;
     }
+    int temp = tmpIdx;
     tmpIdx = tmpIdx - idx;
-    newIdx = idx + tmpIdx + processes[idx].size;
+    newIdx = idx + tmpIdx + processes[temp].size;
     if (newIdx >= maxMemory) {
         if (pFlag == 1)
             return pPtr;

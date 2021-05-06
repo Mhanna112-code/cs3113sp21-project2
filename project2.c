@@ -129,8 +129,6 @@ int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struc
     int err = 0;
     int newIdx;
     for (int i = idx; i < maxMemory; i++){
-        if (i == maxMemory - 1)
-            endFlag = 1;
         tmpIdx = i;
         if (processes[i].full != 700)
             availableSize++;
@@ -148,7 +146,17 @@ int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struc
                 tFlag = 1;
                 bestHole++;
             }
+        if (i == maxMemory - 1) {
+            endFlag = 1;
+            if (mFlag == 1) {
+                if (bestHole > max) {
+                    max = bestHole;
+                    oPtr = idx;
+                }
+            }
+            break;
         }
+    }
     if (endFlag == 1) {
         if (tFlag == 1)
             return oPtr;
@@ -177,8 +185,6 @@ int calculateAvailableSizeForBestFit(int idx, struct Process processes[], struct
     int newIdx;
     for (int i = idx; i < maxMemory; i++){
         tmpIdx = i;
-        if (i == maxMemory - 1)
-            endFlag = 1;
         if (processes[i].full != 700)
             availableSize++;
         else{
@@ -194,6 +200,16 @@ int calculateAvailableSizeForBestFit(int idx, struct Process processes[], struct
             mFlag = 1;
             pFlag = 1;
             bestHole++;
+        }
+        if (i == maxMemory - 1) {
+            if (mFlag == 1) {
+                if (bestHole < min) {
+                    min = bestHole;
+                    pPtr = idx;
+                }
+            }
+            endFlag = 1;
+            break;
         }
     }
     if (endFlag == 1) {

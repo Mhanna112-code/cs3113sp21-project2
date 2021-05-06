@@ -87,6 +87,7 @@ int calculateAvailableSize(int idx, struct Process processes[], struct Instructi
     calculateAvailableSize(newIdx, processes, ins);
 }
 
+int endFlag = 0;
 int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct Instruction ins){
     int availableSize = 0;
     int temp = 0;
@@ -99,13 +100,18 @@ int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct
             break;
         if (availableSize == ins.size)
             return idx;
-        if (i == maxMemory - 1)
-            return calculateAvailableSize(0, processes, ins);
+        if (i == maxMemory - 1 && endFlag != 1)
+            endFlag = 1;
+            return calculateAvailableSizeForNextFit(0, processes, ins);
     }
     temp = tmpIdx;
     tmpIdx = tmpIdx - idx;
     int newIdx = idx + tmpIdx + processes[temp].size;
     if (newIdx >= maxMemory)
+        if (endFlag != 1){
+            endFlag = 1;
+            return calculateAvailableSizeForNextFit(0, processes, ins);
+        }
         return -1;
     calculateAvailableSizeForNextFit(newIdx, processes, ins);
 }
@@ -226,7 +232,7 @@ void listAvailable(struct Process processes[]){
     if (fFlag == 1)
         printf("%c",'\n');
     if (fFlag == 0)
-        printf("NONE\n");
+        printf("FULL\n");
 }
 
 void findProcess(char* PID, struct Process processes[]){
@@ -401,6 +407,7 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
                 } else {
                     idx = endPtr;
                     idx = calculateAvailableSizeForNextFit(idx, processes, instructions[i]);
+                    endFlag = 0;
                     if (idx == -1)
                         printf("FAIL REQUEST %s %d\n", instructions[i].ID, instructions[i].size);
                     else {

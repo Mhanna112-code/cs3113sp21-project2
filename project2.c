@@ -90,7 +90,6 @@ int calculateAvailableSize(int idx, struct Process processes[], struct Instructi
 int endFlag = 0;
 int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct Instruction ins){
     int availableSize = 0;
-    int temp = 0;
     int tmpIdx = maxMemory;
     for (int i = idx; i < maxMemory; i++){
         tmpIdx = i;
@@ -100,19 +99,20 @@ int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct
             break;
         if (availableSize == ins.size)
             return idx;
-        if (i == maxMemory - 1 && endFlag != 1)
+        if (i == maxMemory - 1 && endFlag != 1) {
             endFlag = 1;
             return calculateAvailableSizeForNextFit(0, processes, ins);
+        }
     }
-    temp = tmpIdx;
     tmpIdx = tmpIdx - idx;
-    int newIdx = idx + tmpIdx + processes[temp].size;
-    if (newIdx >= maxMemory)
-        if (endFlag != 1){
+    int newIdx = idx + tmpIdx + processes[idx].size;
+    if (newIdx >= maxMemory - 1) {
+        if (endFlag != 1) {
             endFlag = 1;
             return calculateAvailableSizeForNextFit(0, processes, ins);
         }
         return -1;
+    }
     calculateAvailableSizeForNextFit(newIdx, processes, ins);
 }
 

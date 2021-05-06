@@ -22,7 +22,8 @@ struct Instruction
     int size;
 };
 
-int readInstructions(FILE *file, struct Instruction instructions[])
+struct Instruction instructions[500 * USHRT_MAX] = {0};
+int readInstructions(FILE *file)
 {
     struct Instruction instruction;
     char string[10];
@@ -697,10 +698,10 @@ void getInput(char **argv){
 }
 
 int main(int argc, char**argv) {
-    struct Instruction *instructions = (struct Instruction*) malloc(ULLONG_MAX * sizeof(struct Instruction));
+    //struct Instruction *instructions = (struct Instruction*) malloc(maxMemory * sizeof(struct Instruction));
     getInput(argv);
     struct Process *processes = (struct Process*) malloc(maxMemory * sizeof(struct Process));
-    int numI = readInstructions(fp, instructions);
+    int numI = readInstructions(fp);
     char* str = strstr(fitType, "FIRSTFIT");
     if (str != NULL)
         performFirstFit(instructions,numI,processes);

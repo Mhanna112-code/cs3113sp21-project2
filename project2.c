@@ -439,6 +439,7 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
                     }
                 }
             }
+            int uFlag = 0;
             char* str2 = strstr(instructions[i].command, "RELEASE");
             int temp;
             if (str2 != NULL) {
@@ -451,29 +452,27 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
                         str2 = strstr(instructions[i].ID, processes[m].PID);
                     if (str2 != NULL) {
                         if (processFound == 0) {
-                            temp = m;
+                            for (int k = m + 1; k < maxMemory; k++) {
+                                if (processes[k].full == 700 && processes[k+1].full != 700)
+                                    endPtr = k + 1;
+                            }
                             instructions[i].size = processes[m].size;
                             processFound = 1;
                             processes[m].PID = 0;
                             processes[m].full = -700;
                             processes[m].size = 0;
-                            if (m < maxMemory - 1){
-                                if (processes[m].end == 700 && processes[m + 1].full == 700)
-                                    endPtr = m + 1;
-                                //if (processes[m].end)
-                            }
-                            else
+                            if (m == maxMemory - 1)
                                 endPtr = 0;
                             processes[m].end = 0;
                         } else {
+                            for (int k = m + 1; k < maxMemory; k++) {
+                                if (processes[k].full == 700 && processes[k+1].full != 700)
+                                    endPtr = k + 1;
+                            }
                             processes[m].PID = 0;
                             processes[m].full = -700;
                             processes[m].size = 0;
-                            if (m < maxMemory - 1){
-                                if (processes[m].end == 700 && processes[m + 1].full == 700)
-                                    endPtr = m + 1;
-                            }
-                            else
+                            if (m == maxMemory - 1)
                                 endPtr = 0;
                             processes[m].end = 0;
                         }

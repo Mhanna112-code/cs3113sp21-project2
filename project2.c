@@ -462,6 +462,10 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
                         if (processFound == 0) {
                             temp = m;
                             for (int k = m + 1; k < maxMemory; k++) {
+                                if (processes[k].full != 700) {
+                                    endPtr = k;
+                                    break;
+                                }
                                 if (processes[k].full == 700 && processes[k+1].full != 700) {
                                     endPtr = k + 1;
                                     break;
@@ -708,7 +712,7 @@ void getInput(char **argv){
 }
 
 int main(int argc, char**argv) {
-    //struct Instruction *instructions = (struct Instruction*) malloc(maxMemory * sizeof(struct Instruction));
+    //struct Instruction *instructions = (struct Instruction*) malloc(500000 * sizeof(struct Instruction));
     getInput(argv);
     struct Process *processes = (struct Process*) malloc(maxMemory * sizeof(struct Process));
     int numI = readInstructions(fp);

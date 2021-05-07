@@ -2,17 +2,21 @@
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
+//data structure to hold process in memory
 struct Process{
     int full; //boolean to check if process slot taken
     int end;  //boolean to check if last process
-    int size; //size of process
     char *PID; //process ID
+    int size; //process size
 };
 
-
+//size of max memory
 unsigned long long maxMemory;
+//gets algorithm type
 char *fitType;
+//points to instruction textfile
 FILE *fp;
+//data structures to hold instructions and instruction contents
 struct Instruction
 {
     char command[10];
@@ -20,18 +24,26 @@ struct Instruction
     char ID[17];
     int isEmpty;
     int size;
-};
-
-struct Instruction instructions[500 * USHRT_MAX] = {0};
+}instructions[500 * USHRT_MAX] = {0};
+//reads from textfile
 int readInstructions(FILE *file)
 {
     struct Instruction instruction;
     char string[10];
     int insPtr = 0;
+    //keep scanning the file until the end
     while (fscanf(file, "%s", string) != EOF)
     {
+        //copies string to instruction command
         strcpy(instruction.command, string);
-        if (strcmp(instruction.command, "#") == 0) //skip comments in input
+        //if instruction is release or find, copy next string to instruction.ID
+        if (strcmp(string, "RELEASE") == 0 || strcmp(string, "FIND") == 0)
+        {
+            fscanf(file, "%s", string);
+            strcpy(instruction.ID, string);
+        }
+            //if string is '#', copy next string to instruction.ID
+        else if (strcmp(instruction.command, "#") == 0) //skip comments in input
         {
             fscanf(file, "%*[^\n]");
         }
@@ -41,11 +53,6 @@ int readInstructions(FILE *file)
             strcpy(instruction.ID, string);
             fscanf(file, "%s", string);
             instruction.size = atoi(string);
-        }
-        else if (strcmp(string, "RELEASE") == 0 || strcmp(string, "FIND") == 0)
-        {
-            fscanf(file, "%s", string);
-            strcpy(instruction.ID, string);
         }
         else
         {
@@ -279,20 +286,21 @@ void listAssigned(struct Process processes[]) {
             tmpPID = processes[i].PID;
             iFlag = 0;
         }
-        if (processes[i].full == 700)
+        if (processes[i].full == 700) {
             if (processes[i].PID == tmpPID)
                 assignedProcesses[tmpIdx] += 1;
             else {
                 tmpPID = processes[i].PID;
                 tmpIdx = i;
             }
-        if (i < maxMemory && processes[i].full != 700)
+        }
+        if (i < maxMemory && processes[i].full != 700) {
             if (processes[i + 1].full == 700) {
                 tmpIdx = i + 1;
                 iFlag = 1;
-            }
-            else
+            } else
                 continue;
+        }
     }
     int fFlag = 0;
     for (int i = 0; i < maxMemory; i++){

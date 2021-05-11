@@ -14,67 +14,61 @@ struct Process{
 unsigned long long maxMemory;
 //gets algorithm type
 char *fitType;
-//points to instruction textfile
+//points to algoParams textfile
 FILE *fp;
-//data structures to hold instructions and instruction contents
-struct Instruction
+//data structures to hold instructions and algoParams contents
+struct algoParams
 {
-    char command[10];
-    char subcommand[10];
     char ID[17];
     int isEmpty;
     int size;
+    char command[10];
+    char subcommand[10];
 }instructions[500 * USHRT_MAX] = {0};
 //reads from textfile
-int readInstructions(FILE *file)
+int readinstructions(FILE *file)
 {
-    struct Instruction instruction;
+    struct algoParams algoParams;
     char string[10];
     int insPtr = 0;
     //keep scanning the file until the end
     while (fscanf(file, "%s", string) != EOF)
     {
-        //copies string to instruction command
-        strcpy(instruction.command, string);
-        //if instruction is release or find, copy next string to instruction.ID
+        //copies string to algoParams command
+        strcpy(algoParams.command, string);
+        //if algoParams is release or find, copy next string to algoParams.ID
         if (strcmp(string, "RELEASE") == 0 || strcmp(string, "FIND") == 0)
         {
             fscanf(file, "%s", string);
-            strcpy(instruction.ID, string);
+            strcpy(algoParams.ID, string);
         }
-        /*
-            //if string is '#', copy next string to instruction.ID
-        else if (strcmp(instruction.command, "#") == 0) //skip comments in input
-        {
-            fscanf(file, "%*[^\n]");
-        }*/
-        //if string is "REQUEST", copy PID and size to instruction.ID and instruction.size
-        else if (strcmp(instruction.command, "REQUEST") == 0)
+        //if string is "REQUEST", copy PID and size to algoParams.ID and algoParams.size
+        else if (strcmp(algoParams.command, "REQUEST") == 0)
         {
             fscanf(file, "%s", string);
-            strcpy(instruction.ID, string);
+            strcpy(algoParams.ID, string);
             fscanf(file, "%s", string);
-            instruction.size = atoi(string);
+            algoParams.size = atoi(string);
         }
-        //if string is subcommand, copy string to instruction.subcommand
+        //if string is subcommand, copy string to algoParams.subcommand
         else
         {
             fscanf(file, "%s", string);
-            strcpy(instruction.subcommand, string);
+            strcpy(algoParams.subcommand, string);
         }
-        //if instruction is not a comment, insert instruction to instructions data struct
-        if (strcmp(instruction.command, "#") != 0)
+        //if algoParams is not a comment, insert algoParams to instructions data struct
+        if (strcmp(algoParams.command, "#") != 0)
         {
-            instruction.isEmpty = -700;
-            instructions[insPtr] = instruction;
+            algoParams.isEmpty = -700;
+            instructions[insPtr] = algoParams;
             insPtr++;
         }
     }
-    //returns instruction index
+    //returns algoParams index
     return insPtr;
 }
 //calculate and return available size index for firstfit
-int calculateAvailableSize(int idx, struct Process processes[], struct Instruction ins){
+int calculateAvailableSize(int idx, struct Process processes[], struct algoParams ins){
     int availableSize = 0;
     int tmpIdx = maxMemory;
     for (int i = idx; i < maxMemory; i++){
@@ -99,7 +93,7 @@ int calculateAvailableSize(int idx, struct Process processes[], struct Instructi
 
 //calculate and return available size index for nextfit
 int endFlag = 0;
-int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct Instruction ins){
+int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct algoParams ins){
     int availableSize = 0;
     int tmpIdx = maxMemory;
     for (int i = idx; i < maxMemory; i++){
@@ -132,7 +126,7 @@ int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct
 unsigned long long max = 0;
 int oPtr = 0;
 int tFlag = 0;
-int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struct Instruction ins) {
+int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struct algoParams ins) {
     int endFlag = 0;
     int tmpIdx = 0;
     int availableSize = 0;
@@ -189,7 +183,7 @@ int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struc
 unsigned long long min = LLONG_MAX;
 int pPtr = 0;
 int pFlag = 0;
-int calculateAvailableSizeForBestFit(int idx, struct Process processes[], struct Instruction ins) {
+int calculateAvailableSizeForBestFit(int idx, struct Process processes[], struct algoParams ins) {
     int endFlag = 0;
     int tmpIdx = 0;
     int availableSize = 0;
@@ -312,7 +306,7 @@ void listAssigned(struct Process processes[]) {
 }
 
 //performs instructions on firstfit algorithm
-void performFirstFit(struct Instruction instructions[], int numInstructions, struct Process processes[]){
+void performFirstFit(struct algoParams instructions[], int numinstructions, struct Process processes[]){
     int idx = 0;
     int iFlag = 0;
     int rFlag = 0;
@@ -320,7 +314,7 @@ void performFirstFit(struct Instruction instructions[], int numInstructions, str
     int availableSize = maxMemory;
     for (int m = 0; m < maxMemory; m++)
         processes[m].PID = NULL;
-    for (int i = 0; i < numInstructions; i++) {
+    for (int i = 0; i < numinstructions; i++) {
         if (instructions[i].isEmpty == -700)
             iFlag = 1;
         if (iFlag == 1) {
@@ -399,7 +393,7 @@ void performFirstFit(struct Instruction instructions[], int numInstructions, str
     }
 }
 //performs instructions on nextfit algorithm
-void performNextFit(struct Instruction instructions[], int numInstructions, struct Process processes[]){
+void performNextFit(struct algoParams instructions[], int numinstructions, struct Process processes[]){
     int idx = 0;
     int iFlag = 0;
     int rFlag = 0;
@@ -407,7 +401,7 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
     int endPtr = 0;
     for (int m = 0; m < maxMemory; m++)
         processes[m].PID = NULL;
-    for (int i = 0; i < numInstructions; i++) {
+    for (int i = 0; i < numinstructions; i++) {
         int processFound = 0;
         if (instructions[i].isEmpty == -700)
             iFlag = 1;
@@ -504,7 +498,7 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
     }
 }
 //performs instructions on worstfit algorithm
-void performWorstFit(struct Instruction instructions[], int numInstructions, struct Process processes[]){
+void performWorstFit(struct algoParams instructions[], int numinstructions, struct Process processes[]){
     int idx = 0;
     int iFlag = 0;
     int rFlag = 0;
@@ -512,7 +506,7 @@ void performWorstFit(struct Instruction instructions[], int numInstructions, str
     int availableSize = maxMemory;
     for (int m = 0; m < maxMemory; m++)
         processes[m].PID = NULL;
-    for (int i = 0; i < numInstructions; i++) {
+    for (int i = 0; i < numinstructions; i++) {
         if (instructions[i].isEmpty == -700)
             iFlag = 1;
         if (iFlag == 1) {
@@ -594,7 +588,7 @@ void performWorstFit(struct Instruction instructions[], int numInstructions, str
     }
 }
 //performs instructions on bestfit algorithm
-void performBestFit(struct Instruction instructions[], int numInstructions, struct Process processes[]){
+void performBestFit(struct algoParams instructions[], int numinstructions, struct Process processes[]){
     int idx = 0;
     int iFlag = 0;
     int rFlag = 0;
@@ -602,7 +596,7 @@ void performBestFit(struct Instruction instructions[], int numInstructions, stru
     int availableSize = maxMemory;
     for (int m = 0; m < maxMemory; m++)
         processes[m].PID = NULL;
-    for (int i = 0; i < numInstructions; i++) {
+    for (int i = 0; i < numinstructions; i++) {
         if (instructions[i].isEmpty == -700)
             iFlag = 1;
         if (iFlag == 1) {
@@ -706,7 +700,7 @@ void getInput(char **argv){
 int main(int argc, char**argv) {
     getInput(argv);
     struct Process *processes = (struct Process*) malloc(maxMemory * sizeof(struct Process));
-    int numI = readInstructions(fp);
+    int numI = readinstructions(fp);
     char* str = strstr(fitType, "FIRSTFIT");
     if (str != NULL)
         performFirstFit(instructions,numI,processes);

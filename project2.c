@@ -279,7 +279,7 @@ void findProcess(char* PID, struct Process processes[]){
 void listAssigned(struct Process processes[]) {
     int *assignedProcesses = (int*) malloc(maxMemory * sizeof(int));
     int tmpIdx = 0;
-    char* tmpPID;
+    char* tmpPID = NULL;
     int iFlag = 0;
     for (int i = 0; i < maxMemory; i++) {
         /*

@@ -42,11 +42,13 @@ int readInstructions(FILE *file)
             fscanf(file, "%s", string);
             strcpy(instruction.ID, string);
         }
+        /*
             //if string is '#', copy next string to instruction.ID
         else if (strcmp(instruction.command, "#") == 0) //skip comments in input
         {
             fscanf(file, "%*[^\n]");
-        }
+        }*/
+        //if string is "REQUEST", copy PID and size to instruction.ID and instruction.size
         else if (strcmp(instruction.command, "REQUEST") == 0)
         {
             fscanf(file, "%s", string);
@@ -54,12 +56,13 @@ int readInstructions(FILE *file)
             fscanf(file, "%s", string);
             instruction.size = atoi(string);
         }
+        //if string is subcommand, copy string to instruction.subcommand
         else
         {
             fscanf(file, "%s", string);
             strcpy(instruction.subcommand, string);
         }
-
+        //if instruction is not a comment, insert instruction to instructions data struct
         if (strcmp(instruction.command, "#") != 0)
         {
             instruction.isEmpty = -700;
@@ -67,9 +70,10 @@ int readInstructions(FILE *file)
             insPtr++;
         }
     }
+    //returns instruction index
     return insPtr;
 }
-
+//calculate and return available size index for firstfit
 int calculateAvailableSize(int idx, struct Process processes[], struct Instruction ins){
     int availableSize = 0;
     int tmpIdx = maxMemory;
@@ -93,6 +97,7 @@ int calculateAvailableSize(int idx, struct Process processes[], struct Instructi
     calculateAvailableSize(newIdx, processes, ins);
 }
 
+//calculate and return available size index for nextfit
 int endFlag = 0;
 int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct Instruction ins){
     int availableSize = 0;
@@ -462,12 +467,12 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
                         if (processFound == 0) {
                             temp = m;
                             for (int k = m + 1; k < maxMemory; k++) {
-                                if (processes[k].full == 700 && processes[k+1].full != 700) {
-                                    endPtr = k + 1;
-                                    break;
-                                }
                                 if (k == maxMemory - 1) {
                                     endPtr = 0;
+                                    break;
+                                }
+                                if (processes[k].full == 700 && processes[k+1].full != 700) {
+                                    endPtr = k + 1;
                                     break;
                                 }
                             }
@@ -476,8 +481,6 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
                             processes[m].PID = 0;
                             processes[m].full = -700;
                             processes[m].size = 0;
-                            if (m == maxMemory - 1)
-                                endPtr = 0;
                             processes[m].end = 0;
                         } else {
                             processes[m].PID = 0;

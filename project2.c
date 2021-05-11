@@ -282,26 +282,25 @@ void listAssigned(struct Process processes[]) {
     char* tmpPID;
     int iFlag = 0;
     for (int i = 0; i < maxMemory; i++) {
-        if (i == 0 || iFlag == 1) {
+        /*
+        if (i == 0 || iFlag == 1 && processes[i].full == 700) {
             tmpPID = processes[i].PID;
             iFlag = 0;
-        }
+        }*/
         if (processes[i].full == 700) {
-            if (processes[i].PID == tmpPID)
-                assignedProcesses[tmpIdx] += 1;
-            else {
+            if (processes[i].PID != tmpPID){
                 tmpPID = processes[i].PID;
                 tmpIdx = i;
+                assignedProcesses[tmpIdx] += 1;
             }
         }
-        if (i < maxMemory && processes[i].full != 700) {
+        /*if (i < maxMemory - 1 && processes[i].full != 700) {
             if (processes[i + 1].full == 700) {
                 tmpIdx = i + 1;
                 iFlag = 1;
             } else
-                continue;
+                continue;*/
         }
-    }
     int fFlag = 0;
     for (int i = 0; i < maxMemory; i++){
         if (assignedProcesses[i] > 0) {
@@ -450,6 +449,7 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
             int uFlag = 0;
             char* str2 = strstr(instructions[i].command, "RELEASE");
             int temp;
+            int fFlag = 0;
             if (str2 != NULL) {
                 rFlag = 1;
                 if (instructions[i].size < 1)
@@ -462,8 +462,8 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
                         if (processFound == 0) {
                             temp = m;
                             for (int k = m + 1; k < maxMemory; k++) {
-                                if (processes[k].full != 700) {
-                                    endPtr = k;
+                                if (processes[k].full == 700 && processes[k+1].full != 700) {
+                                    endPtr = k + 1;
                                     break;
                                 }
                                 if (k == maxMemory - 1) {

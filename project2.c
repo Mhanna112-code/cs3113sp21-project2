@@ -128,6 +128,7 @@ int calculateAvailableSizeForNextFit(int idx, struct Process processes[], struct
     calculateAvailableSizeForNextFit(newIdx, processes, ins);
 }
 
+//calculate and return available size index for worstfit
 unsigned long long max = 0;
 int oPtr = 0;
 int tFlag = 0;
@@ -184,6 +185,7 @@ int calculateAvailableSizeForWorstFit(int idx, struct Process processes[], struc
     calculateAvailableSizeForWorstFit(newIdx, processes, ins);
 }
 
+//calculate and return available size index for bestfit
 unsigned long long min = LLONG_MAX;
 int pPtr = 0;
 int pFlag = 0;
@@ -239,6 +241,7 @@ int calculateAvailableSizeForBestFit(int idx, struct Process processes[], struct
     calculateAvailableSizeForBestFit(newIdx, processes, ins);
 }
 
+//lists available spaces in processes data struct
 void listAvailable(struct Process processes[]){
     int tmpIdx = 0;
     int *availableSpaces = (int*) malloc(maxMemory * sizeof(int));
@@ -264,7 +267,7 @@ void listAvailable(struct Process processes[]){
     if (fFlag == 0)
         printf("FULL\n");
 }
-
+//finds process in processes data struct
 void findProcess(char* PID, struct Process processes[]){
     int fFlag = 0;
     char* str;
@@ -280,18 +283,13 @@ void findProcess(char* PID, struct Process processes[]){
         if (fFlag == 0)
             printf("FAULT\n");
 }
-
+//lists allocated processes in processes data struct
 void listAssigned(struct Process processes[]) {
     int *assignedProcesses = (int*) malloc(maxMemory * sizeof(int));
     int tmpIdx = 0;
     char* tmpPID = NULL;
     int iFlag = 0;
     for (int i = 0; i < maxMemory; i++) {
-        /*
-        if (i == 0 || iFlag == 1 && processes[i].full == 700) {
-            tmpPID = processes[i].PID;
-            iFlag = 0;
-        }*/
         if (processes[i].full == 700) {
             if (processes[i].PID != tmpPID){
                 tmpPID = processes[i].PID;
@@ -299,13 +297,7 @@ void listAssigned(struct Process processes[]) {
                 assignedProcesses[tmpIdx] += 1;
             }
         }
-        /*if (i < maxMemory - 1 && processes[i].full != 700) {
-            if (processes[i + 1].full == 700) {
-                tmpIdx = i + 1;
-                iFlag = 1;
-            } else
-                continue;*/
-        }
+    }
     int fFlag = 0;
     for (int i = 0; i < maxMemory; i++){
         if (assignedProcesses[i] > 0) {
@@ -319,6 +311,7 @@ void listAssigned(struct Process processes[]) {
         printf("NONE\n");
 }
 
+//performs instructions on firstfit algorithm
 void performFirstFit(struct Instruction instructions[], int numInstructions, struct Process processes[]){
     int idx = 0;
     int iFlag = 0;
@@ -405,7 +398,7 @@ void performFirstFit(struct Instruction instructions[], int numInstructions, str
         processFound = 0;
     }
 }
-
+//performs instructions on nextfit algorithm
 void performNextFit(struct Instruction instructions[], int numInstructions, struct Process processes[]){
     int idx = 0;
     int iFlag = 0;
@@ -510,7 +503,7 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
         processFound = 0;
     }
 }
-
+//performs instructions on worstfit algorithm
 void performWorstFit(struct Instruction instructions[], int numInstructions, struct Process processes[]){
     int idx = 0;
     int iFlag = 0;
@@ -600,7 +593,7 @@ void performWorstFit(struct Instruction instructions[], int numInstructions, str
         processFound = 0;
     }
 }
-
+//performs instructions on bestfit algorithm
 void performBestFit(struct Instruction instructions[], int numInstructions, struct Process processes[]){
     int idx = 0;
     int iFlag = 0;
@@ -703,7 +696,7 @@ void performBestFit(struct Instruction instructions[], int numInstructions, stru
         }
     }
 }
-
+//gets input from main function parameters
 void getInput(char **argv){
     fitType = argv[1];
     maxMemory = atoi(argv[2]);
@@ -711,7 +704,6 @@ void getInput(char **argv){
 }
 
 int main(int argc, char**argv) {
-    //struct Instruction *instructions = (struct Instruction*) malloc(500000 * sizeof(struct Instruction));
     getInput(argv);
     struct Process *processes = (struct Process*) malloc(maxMemory * sizeof(struct Process));
     int numI = readInstructions(fp);

@@ -462,8 +462,8 @@ void performNextFit(struct Instruction instructions[], int numInstructions, stru
                         if (processFound == 0) {
                             temp = m;
                             for (int k = m + 1; k < maxMemory; k++) {
-                                if (processes[k].full == 700 && processes[k+1].full != 700) {
-                                    endPtr = k + 1;
+                                if (processes[k].full != 700) {
+                                    endPtr = k;
                                     break;
                                 }
                                 if (k == maxMemory - 1) {
